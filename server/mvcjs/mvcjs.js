@@ -118,25 +118,25 @@
             });
         },
         post:function(lPath, rPath, callback){
-            // var view = new view(this.__parent__.host, this.__parent__.port, rPath);
-            // this.appParam.post(view.getRelativePath(), (res, req)=>{
-            //     callback(view);
-            //     res.render(lPath, {root:this.__parent__, data:view.getData(), url:view.getRootPath()});
-            // });
+            var view = new viewBase(this.getMainUrl());
+            this.__app.post(lPath, (req, res)=>{
+                callback(view);
+                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+            });
         },
         put:function(lPath, rPath, callback){
-            // var view = new view(this.__parent__.host, this.__parent__.port, rPath);
-            // this.appParam.put(view.getRelativePath(), (res, req)=>{
-            //     callback(view);
-            //     res.render(lPath, {root:this.__parent__, data:view.getData(), url:view.getRootPath()});
-            // });
+            var view = new viewBase(this.getMainUrl());
+            this.__app.put(lPath, (req, res)=>{
+                callback(view);
+                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+            });
         },
         delete:function(lPath, rPath, callback){
-            // var view = new view(this.__parent__.host, this.__parent__.port, rPath);
-            // this.appParam.delete(view.getRelativePath(), (res, req)=>{
-            //     callback(view);
-            //     res.render(lPath, {root:this.__parent__, data:view.getData(), url:view.getRootPath()});
-            // });
+            var view = new viewBase(this.getMainUrl());
+            this.__app.delete(lPath, (req, res)=>{
+                callback(view);
+                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+            });
         },
     }
     
