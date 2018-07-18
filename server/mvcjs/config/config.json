@@ -1,0 +1,14 @@
+{
+    "root":"/",
+    "options":{
+        "host":"localhost",
+        "port":"3030"
+    },
+    "config":{
+        "staticPath":"../public",
+        "viewsPath":"../views",
+        "viewAlias":"views"
+    },
+    "redirection":"views/home",
+    "errorPath":"error/index.ejs"
+}
