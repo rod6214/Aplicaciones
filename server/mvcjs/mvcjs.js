@@ -113,6 +113,8 @@
         get:function(lPath, rPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.get(lPath, (req, res)=>{
+                view.req = req;
+                view.res = res;
                 callback(view);
                 res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
             });
@@ -120,6 +122,8 @@
         post:function(lPath, rPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.post(lPath, (req, res)=>{
+                view.req = req;
+                view.res = res;
                 callback(view);
                 res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
             });
@@ -127,6 +131,8 @@
         put:function(lPath, rPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.put(lPath, (req, res)=>{
+                view.req = req;
+                view.res = res;
                 callback(view);
                 res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
             });
@@ -134,6 +140,8 @@
         delete:function(lPath, rPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.delete(lPath, (req, res)=>{
+                view.req = req;
+                view.res = res;
                 callback(view);
                 res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
             });
