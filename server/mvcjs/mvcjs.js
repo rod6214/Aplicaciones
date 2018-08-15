@@ -83,6 +83,8 @@
     }
     util.const = {};
     util.const.verbs = {GET:'GET', POST:'POST', PUT:'PUT', DELETE:'DELETE'};
+    util.const.HTTP = 'http://';
+    util.const.HTTPS = 'https://';
     util.getCurrentPath = function(){ return __dirname; }
     util.getJsonPath = function(){ return path.join(__dirname, 'config', 'config.json'); }
     util.sendToApi = function(view, fhost, fpath, fport, fmethod, callback){
@@ -98,7 +100,7 @@
         var req = http.request(apiReqOpts, (res)=>{
             res.on('data', (body)=>{
                 if(callback != undefined && callback != null)
-                    callback(body);
+                    callback(JSON.parse(body));
             });
         });
         var validationModel = null;
