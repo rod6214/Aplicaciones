@@ -6,14 +6,16 @@ var loginController =  function(){}
 loginController.prototype = new mvc.controllerBase;
 
 loginController.prototype.init = function(){
-    this.get('/views/login', 'login/index.ejs', GetPage);
-    this.post('/views/login', '');
+    this.get('/views/login', LoginPage);
+    this.post('/views/login', LoginResult);
 }
 
-function GetPage(view){
-    // console.log(clearCookie);
-    console.log(view.res.cookie);
-    // console.log(view.__proto__);
+function LoginPage(view){
+    view.render = 'login/index.ejs';
+}
+
+function LoginResult(view){
+    view.redirection = 'views/login';
 }
 
 module.exports = function(){

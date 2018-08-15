@@ -6,11 +6,11 @@ var usuarioController =  function(){}
 usuarioController.prototype = new mvc.controllerBase;
 
 usuarioController.prototype.init = function(){
-    this.get('/views/usuario', 'usuario/index.ejs', GetAll);
+    this.get('/views/usuario', '', GetAll);
 }
 
 function GetAll(view){
-    console.log(view.__proto__);
+    view.render = 'usuario/index.ejs';
 }
 
 module.exports = function(){

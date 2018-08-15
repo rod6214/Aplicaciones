@@ -81,12 +81,41 @@
         this.host = null;
         this.port = null;
     }
-    
+    util.const = {};
+    util.const.verbs = {GET:'GET', POST:'POST', PUT:'PUT', DELETE:'DELETE'};
     util.getCurrentPath = function(){ return __dirname; }
     util.getJsonPath = function(){ return path.join(__dirname, 'config', 'config.json'); }
+    util.sendToApi = function(view, fhost, fpath, fport, fmethod, callback){
+        var apiReqOpts = {
+            host:fhost,
+            port:fport,
+            method:fmethod,
+            path:fpath,
+            headers:{
+                'Content-Type':'application/json'
+            }
+        };
+        var req = http.request(apiReqOpts, (res)=>{
+            res.on('data', (body)=>{
+                if(callback != undefined && callback != null)
+                    callback(body);
+            });
+        });
+        var validationModel = null;
+        if(typeof view.req.body === 'object')
+            validationModel = JSON.stringify(view.req.body);
+        req.end(validationModel);
+    }
 
     viewBase.prototype = {
         __data__:null,
+        render:null,
+        redirection:null,
+        end:null,
+        req:null,
+        res:null,
+        HTTP:'http://',
+        HTTPS:null,
         getData:function(){
             return this.__data__;
         },
@@ -106,46 +135,47 @@
         },
         setHost(host){ this.host = host;},
         setPort(port){ this.port = port;},
-        //__parent__:{},
-
-        //setParent:function(parent){ this.__parent__ = parent; console.log(parent.host);},
         
-        get:function(lPath, rPath, callback){
+        get:function(lPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.get(lPath, (req, res)=>{
-                view.req = req;
-                view.res = res;
-                callback(view);
-                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+                ViewProcessor(view, req, res, callback, this);
             });
         },
-        post:function(lPath, rPath, callback){
+        post:function(lPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.post(lPath, (req, res)=>{
-                view.req = req;
-                view.res = res;
-                callback(view);
-                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+                ViewProcessor(view, req, res, callback, this);
             });
         },
-        put:function(lPath, rPath, callback){
+        put:function(lPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.put(lPath, (req, res)=>{
-                view.req = req;
-                view.res = res;
-                callback(view);
-                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+                ViewProcessor(view, req, res, callback, this);
             });
         },
-        delete:function(lPath, rPath, callback){
+        delete:function(lPath, callback){
             var view = new viewBase(this.getMainUrl());
             this.__app.delete(lPath, (req, res)=>{
-                view.req = req;
-                view.res = res;
-                callback(view);
-                res.render(rPath, {data:view.getData(), url:this.getMainUrl()});
+                ViewProcessor(view, req, res, callback, this);   
             });
         },
+    }
+
+    function ViewProcessor(view, req, res, callback, sender){
+        view.req = req;
+        view.res = res;
+        callback(view);
+        ViewReturnedData(view, sender);
+    }
+
+    function ViewReturnedData(view, sender){
+        if(view.render != null)
+            view.res.render(view.render, {data:view.getData(), url:sender.getMainUrl()});
+        else if(view.redirection != null)
+            view.res.redirect(view.HTTP+view.mainUrl+'/'+view.redirection);
+        else if(view.end != null)
+            view.res.end(view.end);
     }
     
     function Listen(options, callback){

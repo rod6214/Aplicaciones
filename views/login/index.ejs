@@ -14,5 +14,31 @@
 <!--                <li><a href="usuario">Usuario</a></li>-->
             </ul>
         </div>
+        <div>
+            <form id="user-data">
+                Usuario: <input type="text" name="nombre" placeholder="Usuario..."/>
+                Clave: <input type="password" name="pass">
+                <input type="button" value="Entrar" id="ingresar"/>
+            </form>
+        </div>
+        <!-- <script src="../../js/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#ingresar').on('click', function(event){
+                    var jsonObj = $('form').FormToJson();
+                    $.ajax({
+                        url:'http://localhost:54376/api/login',
+                        method:'POST',
+                        data:jsonObj,
+                        success:function(cookie){
+                            var uri = $(cookie).JsonToQueryString();
+                            var url = 'http://localhost:3030/views/valid'+uri; 
+                            // window.location.replace('http://localhost:3030/views/valid'+uri);
+                            debugger;
+                        }
+                    }); 
+                });
+            });
+        </script> -->
     </body>
 </html>

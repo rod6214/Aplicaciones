@@ -7,11 +7,11 @@ var homeController =  function(){}
 homeController.prototype = new mvc.controllerBase;
 
 homeController.prototype.init = function(){
-    this.get('/views/home', 'home/index.ejs', GetAll);
+    this.get('/views/home', GetAll);
 }
 
 function GetAll(view){
-    console.log(view.__proto__);
+    view.render = 'home/index.ejs';
 }
 
 module.exports = function(){
