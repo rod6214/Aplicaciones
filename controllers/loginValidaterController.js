@@ -19,8 +19,9 @@ function ValidPage(view){
             path:'/',
             domain:'localhost',
             secure:false,
-            expires:new Date(Date.now() + 6000)
+            expires:new Date(Date.now() + 60000)
         };
+        //1 minuto = 100000
         console.log(body);
         if(body != null)
             if(body.Key != undefined && body.Value != undefined)
