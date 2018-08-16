@@ -14,9 +14,17 @@ loginValidaterController.prototype.init = function(){
 
 function ValidPage(view){
     mvc.util.sendToApi(view, 'localhost', '/api/login', 54376, verbs.POST, (body)=>{
+        var cookieOptions = {
+            httpOnly:true,
+            path:'/',
+            domain:'localhost',
+            secure:false,
+            expires:new Date(Date.now() + 6000)
+        };
         console.log(body);
-        if(body.Key != undefined && body.Value != undefined)
-            view.res.cookie();
+        if(body != null)
+            if(body.Key != undefined && body.Value != undefined)
+                view.res.cookie(body.Key, body.Value, cookieOptions);
         view.res.redirect('http://localhost:3030/views/home');
     });
 }
